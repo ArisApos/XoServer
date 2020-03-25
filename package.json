@@ -1,14 +1,24 @@
 {
-  "name": "node_tic",
+  "name": "xo-server",
   "version": "1.0.0",
   "description": "node server for ticTacToe react multiplayer version",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "author": "Aris Apostolou",
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ArisApos/XoServer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ArisApos/XoServer/issues"
+  },
+  "homepage": "https://github.com/ArisApos/XoServer#readme"
 }
