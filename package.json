@@ -1,0 +1,14 @@
+{
+  "name": "node_tic",
+  "version": "1.0.0",
+  "description": "node server for ticTacToe react multiplayer version",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Aris Apostolou",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
