@@ -16,7 +16,11 @@ const port = process.env.PORT || 5000;
 const expressServer = app.listen(port);
 console.log("App is listening on port " + port);
 
-const io =socketio(expressServer);
+// the second parameter object is the default. Serves the client io api
+const io =socketio(expressServer, {
+    path: '/socket.io',
+    serveClient: true
+});
 
 // connection is specific event from socket io, Its a reserved event name
 // socket is each one-one line connection
@@ -24,7 +28,7 @@ const io =socketio(expressServer);
 // Anytime some connects to the socketIo server connection event is trigerred!
 io.on('connection', (socket)=> {
 
-    socket.emit('sConnectionReply', {data:'Hello baby from socketIo server'});
+    socket.emit('sConnectionReply', {msg:'Hello baby from socketIo server'});
     socket.on("cConnectionReply", data => {
       console.log("client has replied", data);
     });
