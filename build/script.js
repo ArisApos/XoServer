@@ -1,5 +1,7 @@
 const socket = io('http://localhost:5000')
 
+socket.on('connect', () => console.log(socket.id))
+
 socket.on('sConnectionReply', (data)=>{
     console.log(data);
     socket.emit('cConnectionReply', {data:'Dude!!! This is awesome'});
