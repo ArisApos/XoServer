@@ -22,10 +22,11 @@ const io =socketio(expressServer, {
     serveClient: true
 });
 
-// connection is specific event from socket io, Its a reserved event name
+// connection is specific event from socket io(build in not custom), Its a reserved event name
 // socket is each one-one line connection
 // io is for all sockets
-// Anytime some connects to the socketIo server connection event is trigerred!
+// Anytime some connects to nameSpace to the socketIo server connection event to a nameSpace is trigerred!
+// A socket always belongs to a nameSpace, If we dont provide a nameSpace the / is the default
 io.on('connection', (socket)=> {
 
     socket.emit('sConnectionReply', {msg:'Hello baby from socketIo server'});
