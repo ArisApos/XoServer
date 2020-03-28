@@ -9,10 +9,19 @@ app.use(express.static(__dirname+'/build'));
 app.get('*', (req,res) =>{
     res.sendFile(__dirname+'/build');
 });
-
 const port = process.env.PORT || 5000;
+
+// Get expressServer and pass it to socketServer
 const expressServer = app.listen(port);
-
-socketio(expressServer);
-
 console.log("App is listening on port " + port);
+
+const io =socketio(expressServer);
+
+
+
+
+
+
+
+
+
