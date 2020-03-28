@@ -35,6 +35,8 @@ io.on('connection', (socket)=> {
     });
     socket.on("cRegistrationFormSubmit", data => {
       console.log("client has completed the form", data);
+      const checkingPassed = true;
+      socket.emit("sRegistrationFormSubmit",{checkingPassed : checkingPassed ? 'Done':'Fail'})
     });
     // disconnet event
     socket.on("disconnect", () => console.log("Client disconnected"));
