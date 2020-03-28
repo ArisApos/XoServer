@@ -13,4 +13,6 @@ app.get('*', (req,res) =>{
 const port = process.env.PORT || 5000;
 const expressServer = app.listen(port);
 
+socketio(expressServer);
+
 console.log("App is listening on port " + port);
