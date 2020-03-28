@@ -1,5 +1,6 @@
-const express = require('express')
-const app = express()
+const express = require('express');
+const app = express();
+const socketio = require('socket.io');
 
 // Serve the static files from the React app
 app.use(express.static(__dirname+'/build'));
@@ -10,6 +11,6 @@ app.get('*', (req,res) =>{
 });
 
 const port = process.env.PORT || 5000;
-app.listen(port);
+const expressServer = app.listen(port);
 
 console.log("App is listening on port " + port);
