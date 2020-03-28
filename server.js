@@ -23,9 +23,9 @@ const io =socketio(expressServer);
 // io is for all sockets
 // Anytime some connects to the socketIo server connection event is trigerred!
 io.on('connection', (socket)=> {
-    socket.emit('sFirstReply', {data:'Hello baby from socketIo server'});
-    socket.on('cFirstReply', (data)=> {
-        console.log('client has replied',data);
+    socket.emit('sConnectionReply', {data:'Hello baby from socketIo server'});
+    socket.on("cConnectionReply", data => {
+      console.log("client has replied", data);
     });
 } );
 
