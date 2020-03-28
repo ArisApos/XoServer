@@ -23,10 +23,13 @@ const io =socketio(expressServer);
 // io is for all sockets
 // Anytime some connects to the socketIo server connection event is trigerred!
 io.on('connection', (socket)=> {
+
     socket.emit('sConnectionReply', {data:'Hello baby from socketIo server'});
     socket.on("cConnectionReply", data => {
       console.log("client has replied", data);
     });
+    // disconnet event
+    socket.on("disconnect", () => console.log("Client disconnected"));
 } );
 
 
