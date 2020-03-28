@@ -29,7 +29,7 @@ const io =socketio(expressServer, {
 // A socket always belongs to a nameSpace, If we dont provide a nameSpace the / is the default
 io.on('connection', (socket)=> {
 
-    socket.emit('sConnectionReply', {msg:`Hello baby, your socketId: ${ socket.id } connctionStatus: ${socket.connected}`});
+    socket.emit('sConnectionReply', {id: socket.id, connected: socket.connected});
     socket.on("cConnectionReply", data => {
       console.log("client has replied", data);
     });
