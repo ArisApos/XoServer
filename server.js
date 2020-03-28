@@ -33,6 +33,9 @@ io.on('connection', (socket)=> {
     socket.on("cConnectionReply", data => {
       console.log("client has replied", data);
     });
+    socket.on("cRegistrationFormSubmit", data => {
+      console.log("client has completed the form", data);
+    });
     // disconnet event
     socket.on("disconnect", () => console.log("Client disconnected"));
 } );
