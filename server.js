@@ -47,7 +47,7 @@ io.on('connection', (socket)=> {
     const player = {id:socket.id}
     players = [...players, player];
     io.emit(ss.root.UPDATE_PLAYERS, {players});
-    socket.emit(ss.root.CONNECTION_REPLY, {id: socket.id, connected: socket.connected});
+    socket.emit(ss.root.CONNECTION_REPLY, { ss, cs, id: socket.id, connected: socket.connected});
     socket.on(cs.root.CONNECTION_REPLY, data => {
       console.log("client has replied", data);
     });
