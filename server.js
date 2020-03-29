@@ -27,8 +27,11 @@ const io =socketio(expressServer, {
 // io is for all sockets
 // Anytime some connects to nameSpace to the socketIo server connection event to a nameSpace is trigerred!
 // A socket always belongs to a nameSpace, If we dont provide a nameSpace the / is the default
+let players = [];
 io.on('connection', (socket)=> {
-
+    const player = {id:socket.id}
+    players = [...players, player];
+    io.emit('sConectionBroadcast', {players});
     socket.emit('sConnectionReply', {id: socket.id, connected: socket.connected});
     socket.on("cConnectionReply", data => {
       console.log("client has replied", data);
