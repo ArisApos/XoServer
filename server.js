@@ -31,7 +31,7 @@ let players = [];
 io.on('connection', (socket)=> {
     const player = {id:socket.id}
     players = [...players, player];
-    io.emit('sConectionBroadcast', {players});
+    io.emit('sUpdatePlayers', {players});
     socket.emit('sConnectionReply', {id: socket.id, connected: socket.connected});
     socket.on("cConnectionReply", data => {
       console.log("client has replied", data);
@@ -42,7 +42,11 @@ io.on('connection', (socket)=> {
       socket.emit("sRegistrationFormSubmit",{checkingPassed : checkingPassed ? 'Done':'Fail'})
     });
     // disconnet event
-    socket.on("disconnect", () => console.log("Client disconnected"));
+    socket.on("disconnect", () =>{
+      console.log(`Client ${socket.id} disconnected`);
+      players = players.filter(player => player.id !== socket.id);
+      io.emit('sUpdatePlayers', {players});
+    });
 } );
 
 
