@@ -25,7 +25,7 @@ app.get('*', (req,res) =>{
 });
 app.post('/loggin',(req,res) => {
   const { body } = req;
-  console.log("POOOOOSSTTT---", body);
+  console.log("POOOOOSSTTT--Loggin-", body);
   let valid=true;
   if( body.name !== 'aris') valid = false;
 
@@ -40,6 +40,20 @@ app.post('/loggin',(req,res) => {
   });
 
 })
+
+app.post("/register", (req, res) => {
+  const { body } = req;
+  console.log("POOOOOSSTTT--Register-", body);
+  res.format({
+    "application/json": function() {
+      res.send( body );
+    },
+    default: function() {
+      // log the request and respond with 406
+      res.status(406).send("Not Acceptable");
+    }
+  });
+});
 const port = process.env.PORT || 5000;
 
 // Get expressServer and pass it to socketServer
