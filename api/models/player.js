@@ -5,7 +5,7 @@ const playerSchema = mongoose.Schema({
   password: { type: String, required: true },
   maxPlayers: { type: Number, required: true },
   maxTime: { type: Number, required: true },
-  points: { type: Number, required: true }
+  points: { type: Number, default: 0 }
 });
 
 module.exports = mongoose.model('Player', playerSchema);
