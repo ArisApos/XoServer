@@ -27,11 +27,12 @@ app.get("*", (req, res) => {
   res.sendFile(__dirname + "/build");
 });
 
-app.use('/players', playerRoutes);
+app.use('/players', playerRoutes)
 
 const port = process.env.PORT || 5000;
 // Get expressServer and pass it to socketServer
 // The server is listening in port 5000 and the socket.io is listening in server
-exports.expressServer = app.listen(port);
+const expressServer = app.listen(port);
 console.log("App is listening on port " + port);
 
+module.exports = expressServer;
