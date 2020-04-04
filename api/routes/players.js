@@ -5,6 +5,7 @@ const Player = require('../models/player');
 
 router.get('/', (req ,res) => {
     Player.find()
+    .select('name')
     .exec()
     .then(docs => {
         const allPlayersNames = docs.map(player=>player.name);
