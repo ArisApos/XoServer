@@ -3,14 +3,14 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const Player = require('../models/player');
 
-router.post("/loggin", (req, res) => {
-  const { body } = req;
-  console.log("POOOOOSSTTT--Loggin-", body);
-  let valid = body.name === "aris" ? true : false;
-  res.status(200).json({ valid, body });
+router.get("/:name/:password", (req, res) => {
+  const { name, password } = req.params;
+  console.log("GETTTTT--Loggin-", req.params);
+  let valid = name === "aris" ? true : false;
+  res.status(200).json({ valid, params:req.params });
 });
 
-router.post("/register", (req, res) => {
+router.post("/", (req, res) => {
   const { name, password, maxPlayers, maxTime  } = req.body;
   const player = new Player({
     id: new mongoose.Types.ObjectId(),
@@ -24,7 +24,10 @@ router.post("/register", (req, res) => {
   .then(result => {
       console.log('player.save() result', result);
   })
-  .catch(err=>console.log('ERROR!',err));
+  .catch( err => {
+      console.log('ERROR!',err);
+      res.status(500).json({err})
+    });
   console.log("POOOOOSSTTT--Register-", req.body);
   res.status(200).json(req.body);
 });
