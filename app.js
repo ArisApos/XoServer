@@ -3,7 +3,21 @@ const app = express();
 const bodyParser = require("body-parser");
 const morgan = require('morgan');
 const mongoose = require('mongoose');
-const playerRoutes = require('./api/routes/players')
+const playerRoutes = require('./api/routes/players');
+
+const ROOT_URL = "mongodb://127.0.0.1:27017/";
+const XODB = 'xoDb';
+const XODB_URL = ROOT_URL + XODB;
+
+mongoose.connect(XODB_URL, { useNewUrlParser: true });
+const xodb = mongoose.connection;
+xodb.once("open", (_) => {
+  console.log("*****Database connected: DUUUUUDDDEEE!!!*****", XODB_URL);
+});
+
+xodb.on("error", (err) => {
+  console.error(`connection to database ${XODB_URL} error:`, err);
+});
 
 // Serve the static files from the React app
 app.use(express.static(__dirname + "/build"));
