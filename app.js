@@ -24,35 +24,18 @@ app.use((req, res, next) => {
 app.get("*", (req, res) => {
   res.sendFile(__dirname + "/build");
 });
+
 app.post("/loggin", (req, res) => {
   const { body } = req;
   console.log("POOOOOSSTTT--Loggin-", body);
-  let valid = true;
-  if (body.name !== "aris") valid = false;
-
-  res.format({
-    "application/json": function() {
-      res.send({ valid, body });
-    },
-    default: function() {
-      // log the request and respond with 406
-      res.status(406).send("Not Acceptable");
-    }
-  });
+  let valid = body.name === "aris" ? true :false;
+  res.status(200).json({ valid, body });
 });
 
 app.post("/register", (req, res) => {
   const { body } = req;
   console.log("POOOOOSSTTT--Register-", body);
-  res.format({
-    "application/json": function() {
-      res.send(body);
-    },
-    default: function() {
-      // log the request and respond with 406
-      res.status(406).send("Not Acceptable");
-    }
-  });
+  res.status(200).json(body);
 });
 const port = process.env.PORT || 5000;
 
