@@ -43,6 +43,7 @@ router.post("/", (req, res) => {
     password,
     maxPlayers,
     maxTime,
+    points: 0
   });
   player
   .save()
@@ -58,7 +59,7 @@ router.post("/", (req, res) => {
 
 router.delete('/:name/:password', (req, res) => {
     const { name, password } = req.params;
-    Player.deleteMany({ name, password })
+    Player.deleteOne({ name, password })
     .exec()
     .then( result => {
         console.log('DELETE', result);
@@ -70,5 +71,22 @@ router.delete('/:name/:password', (req, res) => {
     })
 });
 
+router.patch('/:name/:password', (req,res) => {
+    const { name, password } = req.params;
+    const { points } = req.body; 
+    console.log(name, points)
+    Player
+    .update({ name, password }, { $set: { points } })
+    .exec()
+    .then(result => {
+        console.log('PATCH',result);
+        res.status(200).json(result);
+    })
+    .catch(error => {
+        console.log(error);
+        res.status(500).json({ error })
+    });
+});
 
 module.exports = router;
+
