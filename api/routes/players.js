@@ -42,17 +42,14 @@ router.post("/", (req, res) => {
   Player.findOne({ name })
   .exec()
   .then(doc => {
-      if(doc) {
-          res.status(500).json({ success: false, body: req.body, message: `name ${ name } already exists` });
-      } else {
+      if(doc) return res.status(500).json({ success: false, body: req.body, message: `name ${ name } already exists` });
     // If not then create one
     const player = new Player({
         id: new mongoose.Types.ObjectId(),
         name,
         password,
         maxPlayers,
-        maxTime,
-        points: 0,
+        maxTime
     });
     player
         .save()
@@ -64,7 +61,7 @@ router.post("/", (req, res) => {
         console.log("ERROR!", err);
         res.status(500).json({ err });
         });     
-      }
+      
   });
 });
 
