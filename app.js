@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const morgan = require('morgan');
+const mongoose = require('mongoose');
 const playerRoutes = require('./api/routes/players')
 
 // Serve the static files from the React app
@@ -9,6 +10,7 @@ app.use(express.static(__dirname + "/build"));
 // Logs API middleware
 app.use(morgan('dev'));
 // Body parser for handle json sended data
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // Setting ACA headers
@@ -31,6 +33,23 @@ app.get("*", (req, res) => {
 });
 
 app.use('/players', playerRoutes)
+
+// Error middlware handlers
+
+app.use((req, res, next) => {
+  const error = new Error("Not found");
+  error.status = 404;
+  next(error);
+});
+
+app.use((error, req, res, next) => {
+  res.status(error.status || 500);
+  res.json({
+    error: {
+      message: error.message,
+    },
+  });
+});
 
 const port = process.env.PORT || 5000;
 // Get expressServer and pass it to socketServer
