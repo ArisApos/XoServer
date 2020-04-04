@@ -49,7 +49,7 @@ router.post("/", (req, res) => {
   .save()
   .then(result => {
         console.log("***db***POST--Save__req.body,result", req.body, result);
-        res.status(200).json(req.body);
+        res.status(200).json(result);
   })
   .catch( err => {
       console.log('ERROR!',err);
@@ -87,6 +87,7 @@ router.patch('/:name/:password', (req,res) => {
         res.status(500).json({ error })
     });
 });
+
 
 module.exports = router;
 
