@@ -9,7 +9,7 @@ const ROOT_URL = "mongodb://127.0.0.1:27017/";
 const XODB = 'xoDb';
 const XODB_URL = ROOT_URL + XODB;
 
-mongoose.connect(XODB_URL, { useNewUrlParser: true });
+mongoose.connect(XODB_URL, { useNewUrlParser: true, useUnifiedTopology: true });
 const xodb = mongoose.connection;
 xodb.once("open", (_) => {
   console.log("*****Database connected: DUUUUUDDDEEE!!!*****", XODB_URL);
