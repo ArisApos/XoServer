@@ -37,24 +37,34 @@ router.get("/:name/:password", (req, res) => {
 
 router.post("/", (req, res) => {
   const { name, password, maxPlayers, maxTime  } = req.body;
-  const player = new Player({
-    id: new mongoose.Types.ObjectId(),
-    name,
-    password,
-    maxPlayers,
-    maxTime,
-    points: 0
-  });
-  player
-  .save()
-  .then(result => {
+  // Check if name exists
+  Player.findOne({ name })
+  .exec()
+  .then(doc => {
+      if(doc) {
+          res.status(500).json({ success: false, body: req.body, message: `name ${ name } already exists` });
+      } else {
+    // If not then create one
+    const player = new Player({
+        id: new mongoose.Types.ObjectId(),
+        name,
+        password,
+        maxPlayers,
+        maxTime,
+        points: 0,
+    });
+    player
+        .save()
+        .then((result) => {
         console.log("***db***POST--Save__req.body,result", req.body, result);
         res.status(200).json(result);
-  })
-  .catch( err => {
-      console.log('ERROR!',err);
-      res.status(500).json({err})
-    });
+        })
+        .catch((err) => {
+        console.log("ERROR!", err);
+        res.status(500).json({ err });
+        });     
+      }
+  });
 });
 
 router.delete('/:name/:password', (req, res) => {
