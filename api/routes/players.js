@@ -56,4 +56,19 @@ router.post("/", (req, res) => {
     });
 });
 
+router.delete('/:name/:password', (req, res) => {
+    const { name, password } = req.params;
+    Player.deleteMany({ name, password })
+    .exec()
+    .then( result => {
+        console.log('DELETE', result);
+        res.status(200).json(result);
+    })
+    .catch( err => {
+        console.log('ERROR!!',err);
+        res.status(500).json({ err });
+    })
+});
+
+
 module.exports = router;
