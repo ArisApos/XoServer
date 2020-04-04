@@ -1,10 +1,13 @@
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
+const morgan = require('morgan');
 const playerRoutes = require('./api/routes/players')
 
 // Serve the static files from the React app
 app.use(express.static(__dirname + "/build"));
+// Logs API middleware
+app.use(morgan('dev'));
 // Body parser for handle json sended data
 app.use(bodyParser.json());
 
