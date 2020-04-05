@@ -21,6 +21,8 @@ xodb.on("error", (err) => {
 
 // Serve the static files from the React app
 app.use(express.static(__dirname + "/public/build"));
+app.use(express.static(__dirname + "/public"));
+
 // Logs API middleware
 app.use(morgan('dev'));
 // Body parser for handle json sended data
