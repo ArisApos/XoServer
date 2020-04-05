@@ -20,7 +20,7 @@ xodb.on("error", (err) => {
 });
 
 // Serve the static files from the React app
-app.use(express.static(__dirname + "/build"));
+app.use(express.static(__dirname + "/public/build"));
 // Logs API middleware
 app.use(morgan('dev'));
 // Body parser for handle json sended data
@@ -43,7 +43,7 @@ app.use((req, res, next) => {
 
 // Handles any requests that don't match the ones above
 app.get("*", (req, res) => {
-  res.sendFile(__dirname + "/build");
+  res.sendFile(__dirname + "/public/build");
 });
 
 app.use('/players', playerRoutes)
