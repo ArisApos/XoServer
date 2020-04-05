@@ -1,7 +1,21 @@
 const express = require("express");
 const router = express.Router();
 const mongoose = require('mongoose');
+const multer = require('multer');
 const Player = require('../models/player');
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'public/players/avatars/');
+    },
+    filename: (req, file, cb) => {
+        const id = new mongoose.Types.ObjectId();
+        req.body.id = id;
+        cb(null, req.body.name);
+    }
+});
+const upload = multer({ storage });
+
 
 router.get('/', (req ,res) => {
     Player.find()
@@ -36,8 +50,9 @@ router.get("/:name/:password", (req, res) => {
   });
 });
 
-router.post("/", (req, res) => {
-  const { name, password, maxPlayers, maxTime  } = req.body;
+router.post("/", upload.single('avatar'),  (req, res) => {
+    console.log('request file', req.file)
+  const { name, password, maxPlayers, maxTime, id  } = req.body;
   // Check if name exists
   Player.findOne({ name })
   .exec()
@@ -45,7 +60,7 @@ router.post("/", (req, res) => {
       if(doc) return res.status(500).json({ success: false, body: req.body, message: `name ${ name } already exists` });
     // If not then create one
     const player = new Player({
-        id: new mongoose.Types.ObjectId(),
+        _id: id,
         name,
         password,
         maxPlayers,
