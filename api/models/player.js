@@ -6,6 +6,7 @@ const playerSchema = mongoose.Schema({
   password: { type: String, required: true },
   maxPlayers: { type: Number, required: true },
   maxTime: { type: Number, required: true },
+  avatar: { type: String, default: 'players/avatars/default.png' },
   points: { type: Number, default: 0 }
 });
 
