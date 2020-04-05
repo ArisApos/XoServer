@@ -7,10 +7,11 @@ const Player = require('../models/player');
 // multer configuration
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, '/public/players/avatars/');
+        cb(null, 'public/playersAssets/avatars/');
     },
     filename: (req, file, cb) => {
-        cb(null, req.body.name);
+        const fileExt = file.mimetype.split('/')[1];
+        cb(null, req.body.name+'.'+fileExt);
     }
 });
 const limmits = { fileSize: 1024 * 1024 * 5 };
@@ -81,14 +82,14 @@ router.post("/", upload.single('avatar'),  (req, res) => {
   .then(doc => {
       // check if name exists or if mimeType was wrong
       if(doc) return res.status(500).json({ success: false, body: req.body, message: `name ${ name } already exists` });
-    // If not then create one
+
     const player = new Player({
         _id: new mongoose.Types.ObjectId(),
         name,
         password,
         maxPlayers,
         maxTime,
-        avatar: req.file ? req.file.path : undefined
+        avatar: req.file ? req.file.path.split('\\').join('/').split('public').join('') : undefined
     });
     player
         .save()
