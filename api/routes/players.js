@@ -80,8 +80,8 @@ router.post("/", upload.single('avatar'),  (req, res) => {
   Player.findOne({ name })
   .exec()
   .then(doc => {
-      // check if name exists or if mimeType was wrong
-      if(doc) return res.status(500).json({ success: false, body: req.body, message: `name ${ name } already exists` });
+    // check if name exists or if mimeType was wrong
+    if(doc) return res.status(500).json({ successfulRegistration: false, message: `name ${ name } already exists`, body: req.body });
 
     const player = new Player({
         _id: new mongoose.Types.ObjectId(),
@@ -93,15 +93,16 @@ router.post("/", upload.single('avatar'),  (req, res) => {
     });
     player
         .save()
-        .then((result) => {
+        .then(result => {
         console.log("***db***POST--Save__req.body,result", req.body, result);
-        res.status(200).json(result);
+        const successfulRegistration = true;
+        const message = `Be the force with you ${result.name}`;
+        res.status(200).json({successfulRegistration, message, result });
         })
         .catch((err) => {
         console.log("ERROR!", err);
-        res.status(500).json({ err });
-        });     
-      
+        res.status(500).json({ successfulRegistration: false, message: 'Sorry internal error', err });
+        });
   });
 });
 
