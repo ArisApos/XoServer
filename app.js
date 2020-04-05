@@ -11,7 +11,7 @@ const XODB_URL = ROOT_URL + XODB;
 
 mongoose.connect(XODB_URL, { useNewUrlParser: true, useUnifiedTopology: true });
 const xodb = mongoose.connection;
-xodb.once("open", (_) => {
+xodb.once("open", () => {
   console.log("*****Database connected: DUUUUUDDDEEE!!!*****", XODB_URL);
 });
 
