@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const multer = require('multer');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const checkAuth = require('../middlewares/check-auth');
 const Player = require('../models/player');
 
 // multer configuration
@@ -42,7 +43,7 @@ const fileFilter = (req, file, cb) => {
 const upload = multer({ storage, limmits, fileFilter });
 
 
-router.get('/', (req ,res) => {
+router.get('/', checkAuth, (req ,res) => {
     Player.find()
     .select('name avatar points')
     .exec()
@@ -67,10 +68,13 @@ router.get("/:name/:password", (req, res) => {
   .then(doc => {
       console.log("***db***GET--Found__req.params", req.params);
       if(doc){
-          console.log("**db*name*Found___Wait for validation", doc);
+        console.log("**db*name*Found___Wait for validation", doc);
         bcrypt.compare(password, doc.password, (err, result)=>{
           if(err) res.status(401).json({ authSuccess: false, message:'Authentication Fail, HashingProblem', params: req.params });
-          if(result) res.status(200).json({ authSuccess: true, message:'Authentiaction Success', params: req.params });
+          if(result) {
+              const token = jwt.sign({name, id: doc._id},process.env.JWT_KEY,{expiresIn: '1h'});
+              res.status(200).json({ authSuccess: true, message:'Authentiaction Success', token });
+          }
           if(!result) res.status(401).json({ authSuccess: false, message:'Authentication Fail', params: req.params });
         });
       } else return res.status(401).json({ authSuccess: false, message:'Authentication Fail', params: req.params });
