@@ -83,7 +83,7 @@ router.post("/", upload.single('avatar'),  (req, res) => {
   .then(doc => {
     // check if name exists or if mimeType was wrong
     if(doc) return res.status(409).json({ successfulRegistration: false, message: `name ${ name } already exists`, body: req.body });
-    bcrypt.hash(name, 10, (err, hash)=>{
+    bcrypt.hash(password, 10, (err, hash)=>{
         if(err) return res.status(500).json({ successfulRegistration: false, message: `fail to create hash`, body: req.body });
         const password = hash;
         const player = new Player({
