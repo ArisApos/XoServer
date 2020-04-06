@@ -3,6 +3,7 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const multer = require('multer');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const Player = require('../models/player');
 
 // multer configuration
@@ -61,16 +62,18 @@ router.get('/', (req ,res) => {
 router.get("/:name/:password", (req, res) => {
   const { name, password } = req.params;
   Player
-  .findOne({ name, password })
+  .findOne({ name })
   .exec()
   .then(doc => {
       console.log("***db***GET--Found__req.params", req.params);
-      if(doc) {
-          console.log('**db**Found',doc);
-          res.status(200).json({ success: true, params: req.params });
-      } else {
-          res.status(401).json({ success: false, params: req.params });
-      }
+      if(doc){
+          console.log("**db*name*Found___Wait for validation", doc);
+        bcrypt.compare(password, doc.password, (err, result)=>{
+          if(err) res.status(401).json({ authSuccess: false, message:'Authentication Fail, HashingProblem', params: req.params });
+          if(result) res.status(200).json({ authSuccess: true, message:'Authentiaction Success', params: req.params });
+          if(!result) res.status(401).json({ authSuccess: false, message:'Authentication Fail', params: req.params });
+        });
+      } else return res.status(401).json({ authSuccess: false, message:'Authentication Fail', params: req.params });
   });
 });
 
