@@ -99,12 +99,12 @@ router.post("/", upload.single('avatar'),  (req, res) => {
         .then(result => {
         console.log("***db***POST--Save__req.body,result", req.body, result);
         const successfulRegistration = true;
-        const message = `Be the force with you ${result.name}`;
+        const message = `May the force be with you ${result.name}`;
         res.status(200).json({successfulRegistration, message, result });
         })
         .catch((err) => {
         console.log("ERROR!", err);
-        res.status(500).json({ successfulRegistration: false, message: 'Sorry internal error', err });
+        res.status(500).json({ successfulRegistration: false, message: 'Sorry internal error, coudnt save user to db', err });
         });
     });
 
