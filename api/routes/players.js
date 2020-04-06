@@ -118,7 +118,7 @@ router.post("/", upload.single('avatar'),  (req, res) => {
   });
 });
 
-router.delete('/:name/:password', (req, res) => {
+router.delete('/:name/:password', checkAuth, (req, res) => {
     const { name, password } = req.params;
     Player.deleteOne({ name, password })
     .exec()
@@ -132,7 +132,7 @@ router.delete('/:name/:password', (req, res) => {
     })
 });
 
-router.patch('/:name/:password', (req,res) => {
+router.patch('/:name/:password', checkAuth, (req,res) => {
     const { name, password } = req.params;
     const { points } = req.body; 
     console.log(name, points)
