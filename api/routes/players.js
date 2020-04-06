@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require('mongoose');
 const multer = require('multer');
+const bcrypt = require('bcrypt');
 const Player = require('../models/player');
 
 // multer configuration
@@ -82,8 +83,10 @@ router.post("/", upload.single('avatar'),  (req, res) => {
   .then(doc => {
     // check if name exists or if mimeType was wrong
     if(doc) return res.status(500).json({ successfulRegistration: false, message: `name ${ name } already exists`, body: req.body });
-
-    const player = new Player({
+    bcrypt.hash(name, 10, (err, hash)=>{
+        if(err) return res.status(500).json({ successfulRegistration: false, message: `fail to create hash`, body: req.body });
+        const password = hash;
+        const player = new Player({
         _id: new mongoose.Types.ObjectId(),
         name,
         password,
@@ -103,6 +106,8 @@ router.post("/", upload.single('avatar'),  (req, res) => {
         console.log("ERROR!", err);
         res.status(500).json({ successfulRegistration: false, message: 'Sorry internal error', err });
         });
+    });
+
   });
 });
 
