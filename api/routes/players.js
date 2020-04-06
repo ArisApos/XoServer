@@ -69,7 +69,7 @@ router.get("/:name/:password", (req, res) => {
           console.log('**db**Found',doc);
           res.status(200).json({ success: true, params: req.params });
       } else {
-          res.status(404).json({ success: false, params: req.params });
+          res.status(401).json({ success: false, params: req.params });
       }
   });
 });
