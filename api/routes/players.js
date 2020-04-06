@@ -70,10 +70,11 @@ router.get("/:name/:password", (req, res) => {
       if(doc){
         console.log("**db*name*Found___Wait for validation", doc);
         bcrypt.compare(password, doc.password, (err, result)=>{
-          if(err) res.status(401).json({ authSuccess: false, message:'Authentication Fail, HashingProblem', params: req.params });
+          if(err)  res.status(401).json({ authSuccess: false, message:'Authentication Fail, HashingProblem', params: req.params });
           if(result) {
+              const { name, avatar, points, maxTime, maxPlayers } = doc;
               const token = jwt.sign({name, id: doc._id},process.env.JWT_KEY,{expiresIn: '1h'});
-              res.status(200).json({ authSuccess: true, message:'Authentiaction Success', token });
+              res.status(200).json({ authSuccess: true, message:'Authentiaction Success', token, status: { name, avatar, points, maxTime, maxPlayers} });
           }
           if(!result) res.status(401).json({ authSuccess: false, message:'Authentication Fail', params: req.params });
         });
@@ -92,11 +93,10 @@ router.post("/", upload.single('avatar'),  (req, res) => {
     if(doc) return res.status(409).json({ successfulRegistration: false, message: `name ${ name } already exists`, body: req.body });
     bcrypt.hash(password, 10, (err, hash)=>{
         if(err) return res.status(500).json({ successfulRegistration: false, message: `fail to create hash`, body: req.body });
-        const password = hash;
         const player = new Player({
         _id: new mongoose.Types.ObjectId(),
         name,
-        password,
+        password: hash,
         maxPlayers,
         maxTime,
         avatar: req.file ? req.file.path.split('\\').join('/').split('public').join('') : undefined
@@ -105,9 +105,8 @@ router.post("/", upload.single('avatar'),  (req, res) => {
         .save()
         .then(result => {
         console.log("***db***POST--Save__req.body,result", req.body, result);
-        const successfulRegistration = true;
-        const message = `May the force be with you ${result.name}`;
-        res.status(200).json({successfulRegistration, message, result });
+        const message = `Succesful registration. May the force be with you ${result.name}`;
+        res.status(200).json({successfulRegistration: true, message, name, password });
         })
         .catch((err) => {
         console.log("ERROR!", err);
