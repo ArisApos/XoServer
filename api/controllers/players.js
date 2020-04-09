@@ -6,20 +6,22 @@ const Player = require("../models/player");
 // get all players
 exports.getAllPlayers = (req, res) => {
     Player.find()
-      .select("name avatar points")
+      .select("name avatar points maxPlayers maxTime")
       .exec()
       .then((docs) => {
-        const allPlayersNames = docs.map(({ name, points, avatar }) => ({
+        const allPlayers = docs.map(({ name, avatar, points, maxPlayers, maxTime }) => ({
           name,
-          points,
           avatar,
+          points,
+          maxPlayers,
+          maxTime
         }));
-        console.log("***db***GET/--Found__allPlayersNames", allPlayersNames);
-        res.status(200).json(allPlayersNames);
+        console.log("***db***GET/--Found__allPlayersNames", allPlayers);
+        res.status(200).json({ authSuccess: true, allPlayers });
       })
       .catch((err) => {
         console.log(err);
-        res.status(500).json({});
+        res.status(500).json({message: 'Internal error'});s
       });
 };
 
