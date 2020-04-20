@@ -17,7 +17,7 @@ exports.getAllPlayers = (req, res) => {
           maxTime
         }));
         console.log("***db***GET/--Found__allPlayersNames", allPlayers);
-        res.status(200).json({ authSuccess: true, allPlayers });
+        res.status(200).json({ allPlayers });
       })
       .catch((err) => {
         console.log(err);
@@ -37,15 +37,15 @@ exports.getAPlayer = (req, res) => {
       if(doc){
         console.log("**db*name*Found___Wait for validation", doc);
         bcrypt.compare(password, doc.password, (err, result)=>{
-          if(err)  res.status(401).json({ authSuccess: false, message:'Authentication Fail, HashingProblem', params: req.params });
+          if(err)  res.status(401).json({ message:'Authentication Fail, HashingProblem', params: req.params });
           if(result) {
               const { name, avatar, points, maxTime, maxPlayers } = doc;
               const token = jwt.sign({name, id: doc._id},process.env.JWT_KEY,{expiresIn: '1h'});
-              res.status(200).json({ authSuccess: true, message:'Authentiaction Success', token, status: { name, avatar, points, maxTime, maxPlayers} });
+              res.status(200).json({ message:'Authentiaction Success', token, status: { name, avatar, points, maxTime, maxPlayers} });
           }
-          if(!result) res.status(401).json({ authSuccess: false, message:'Authentication Fail', params: req.params });
+          if(!result) res.status(401).json({  message:'Authentication Fail', params: req.params });
         });
-      } else return res.status(401).json({ authSuccess: false, message:'Authentication Fail', params: req.params });
+      } else return res.status(401).json({  message:'Authentication Fail', params: req.params });
   });
 }
 
@@ -59,9 +59,9 @@ exports.registerPlayer = (req, res) => {
   .exec()
   .then(doc => {
     // check if name exists or if mimeType was wrong
-    if(doc) return res.status(409).json({ successfulRegistration: false, message: `name ${ name } already exists`, body: req.body });
+    if(doc) return res.status(409).json({  message: `name ${ name } already exists`, body: req.body });
     bcrypt.hash(password, 10, (err, hash)=>{
-        if(err) return res.status(500).json({ successfulRegistration: false, message: `fail to create hash`, body: req.body });
+        if(err) return res.status(500).json({ message: `fail to create hash`, body: req.body });
         const player = new Player({
         _id: new mongoose.Types.ObjectId(),
         name,
@@ -75,11 +75,11 @@ exports.registerPlayer = (req, res) => {
         .then(result => {
         console.log("***db***POST--Save__req.body,result", req.body, result);
         const message = `Succesful registration. May the force be with you ${result.name}`;
-        res.status(200).json({successfulRegistration: true, message, name, password });
+        res.status(200).json({message, name, password });
         })
         .catch((err) => {
         console.log("ERROR!", err);
-        res.status(500).json({ successfulRegistration: false, message: 'Sorry internal error, coudnt save user to db', err });
+        res.status(500).json({ message: 'Sorry internal error, coudnt save user to db', err });
         });
     });
 
