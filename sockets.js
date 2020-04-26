@@ -18,6 +18,7 @@ let players = [];
 io.on("connection", socket => {
   const player = { id: socket.id };
   players = [...players, player];
+  console.log("You have just connected, I am the server and i have socketPlayers", players);
   io.emit(ss.root.UPDATE_PLAYERS, { players });
   socket.emit(ss.root.CONNECTION_REPLY, {
     ss,
@@ -35,9 +36,18 @@ io.on("connection", socket => {
       checkingPassed: checkingPassed ? "Done" : "Fail"
     });
   });
-  // disconnet event
+  // disconnect event
   socket.on("disconnect", () => {
-    console.log(`Client ${socket.id} disconnected`);
+    console.log(`>>>>>>Server Disconect a Client with id ${socket.id}`);
+    players = players.filter(player => player.id !== socket.id);
+    io.of(ss.root.NAME).emit(ss.root.UPDATE_PLAYERS, { players });
+    // io.emit('')
+  });
+
+  // manualyDisconnect
+  // disconnect event
+  socket.on(cs.root.MANULLY_DISCONNECT, () => {
+    console.log(`>>>>>>>>>>>>>>>>>>>>>>Manualy disconnection ${socket.id}`);
     players = players.filter(player => player.id !== socket.id);
     io.of(ss.root.NAME).emit(ss.root.UPDATE_PLAYERS, { players });
     // io.emit('')

@@ -14,6 +14,7 @@ exports.cs = {
   root: {
     NAME: "/",
     CONNECTION_REPLY: "CONNECTION_REPLY",
-    REGISTER: "REGISTER"
-  }
+    REGISTER: "REGISTER",
+    MANULLY_DISCONNECT: "MANULLY_DISCONNECT",
+  },
 };
