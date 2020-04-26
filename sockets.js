@@ -16,39 +16,34 @@ let players = [];
 // Anytime some connects to nameSpace to the socketIo server connection event to a nameSpace is trigerred!
 // A socket always belongs to a nameSpace, If we dont provide a nameSpace the / is the default
 io.on("connection", socket => {
-  const player = { id: socket.id };
-  players = [...players, player];
-  console.log("You have just connected, I am the server and i have socketPlayers", players);
-  io.emit(ss.root.UPDATE_PLAYERS, { players });
-  socket.emit(ss.root.CONNECTION_REPLY, {
+  console.log("You have just connected, I am the server and i have socketPlayers");
+  socket.emit("connection", {
     ss,
     cs,
     id: socket.id,
     connected: socket.connected
   });
-  socket.on(cs.root.CONNECTION_REPLY, data => {
-    console.log("client has replied", data);
+
+  socket.on("passIdentity", ({data:{name, password, token}, message}) => {
+    // authentication operations
+    const player = { socketId: socket.id, name  };
+    players = [...players, player];
+    console.log('Message from client', message);
+    console.log("I am the Server and you just send me your personal data to make a pairing name-socketId, data, player",name, player);
+    io.emit(ss.root.UPDATE_PLAYERS, { players });
   });
-  socket.on(cs.root.REGISTER, data => {
-    console.log("client has completed the form", data);
-    const checkingPassed = true;
-    socket.emit(ss.root.REGISTER, {
-      checkingPassed: checkingPassed ? "Done" : "Fail"
-    });
-  });
+  
   // disconnect event
   socket.on("disconnect", () => {
     console.log(`>>>>>>Server Disconect a Client with id ${socket.id}`);
-    players = players.filter(player => player.id !== socket.id);
+    players = players.filter(player => player.socketId !== socket.id);
     io.of(ss.root.NAME).emit(ss.root.UPDATE_PLAYERS, { players });
     // io.emit('')
   });
-
   // manualyDisconnect
-  // disconnect event
   socket.on(cs.root.MANULLY_DISCONNECT, () => {
     console.log(`>>>>>>>>>>>>>>>>>>>>>>Manualy disconnection ${socket.id}`);
-    players = players.filter(player => player.id !== socket.id);
+    players = players.filter(player => player.socketId !== socket.id);
     io.of(ss.root.NAME).emit(ss.root.UPDATE_PLAYERS, { players });
     // io.emit('')
   });
