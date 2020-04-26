@@ -4,17 +4,13 @@
 exports.ss = {
   root: {
     NAME: "/",
-    UPDATE_PLAYERS: "UPDATE_PLAYERS",
-    CONNECTION_REPLY: "CONNECTION_REPLY",
-    REGISTER: "REGISTER"
-  }
+    UPDATE_PLAYERS: "UPDATE_PLAYERS"
+  },
 };
 // Client Name Spaces with Events
 exports.cs = {
   root: {
     NAME: "/",
-    CONNECTION_REPLY: "CONNECTION_REPLY",
-    REGISTER: "REGISTER",
     MANULLY_DISCONNECT: "MANULLY_DISCONNECT",
   },
 };
