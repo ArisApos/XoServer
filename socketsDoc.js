@@ -11,6 +11,7 @@ exports.ss = {
 exports.cs = {
   root: {
     NAME: "/",
-    MANULLY_DISCONNECT: "MANULLY_DISCONNECT",
+    UPDATE_PLAYERS: "UPDATE_PLAYERS",
+    MANULLY_DISCONNECT: "MANULLY_DISCONNECT"
   },
 };
