@@ -24,12 +24,12 @@ io.on("connection", socket => {
     connected: socket.connected
   });
 
-  socket.on("passIdentity", ({data:{name, password, token}, message}) => {
+  socket.on(cs.root.UPDATE_PLAYERS, ({data:{name, password, token}, message}) => {
     // authentication operations
     const player = { socketId: socket.id, name  };
     players = [...players, player];
     console.log('Message from client', message);
-    console.log("I am the Server and you just send me your personal data to make a pairing name-socketId, data, player",name, player);
+    console.log("I am the Server and you just send me your personal data to make a pairing name-socketId, data, player",name, players);
     io.emit(ss.root.UPDATE_PLAYERS, { players });
   });
   
