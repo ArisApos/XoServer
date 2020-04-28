@@ -1,2 +1,2 @@
-require('./apps/main');
-require('./sockets/main');
+require('./apps/mainApp');
+require('./sockets/mainSocket');

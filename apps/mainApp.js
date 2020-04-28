@@ -1,5 +1,4 @@
 const app = require('../servers').app;
-const express = require('express');
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const playerRoutes = require("../api/routes/players");
