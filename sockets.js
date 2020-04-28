@@ -1,12 +1,5 @@
-const socketio = require("socket.io");
-const expressServer = require("./app");
+const { io } = require("./app");
 const { ss, cs } = require('./socketsDoc');
-// the second parameter object is the default. Serves the client io api
-const io = socketio(expressServer, {
-  path: "/socket.io",
-  serveClient: true
-});
-
 
 let onlinePlayers = [];
 

@@ -1,13 +1,14 @@
 const express = require("express");
 const app = express();
+const socketio = require("socket.io");
 const bodyParser = require("body-parser");
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const playerRoutes = require('./api/routes/players');
 
-const ROOT_URL = "mongodb://127.0.0.1:27017/";
+const DB_ROOT_URL = "mongodb://127.0.0.1:27017/";
 const XODB = 'xoDb';
-const XODB_URL = ROOT_URL + XODB;
+const XODB_URL = DB_ROOT_URL + XODB;
 
 mongoose.connect(XODB_URL, { useNewUrlParser: true, useUnifiedTopology: true });
 const xodb = mongoose.connection;
@@ -71,6 +72,11 @@ const port = process.env.PORT || 5000;
 // Get expressServer and pass it to socketServer
 // The server is listening in port 5000 and the socket.io is listening in server
 const expressServer = app.listen(port);
-console.log("App is listening on port " + port);
 
-module.exports = expressServer;
+// SocketIo initialization
+// the second parameter object is the default. Serves the client io api
+exports.io = socketio(expressServer, {
+  path: "/socket.io",
+  serveClient: true
+});
+console.log("App is listening on port " + port);
