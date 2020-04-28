@@ -1,4 +1,4 @@
-const { io } = require("./app");
+const  io  = require("../servers").io;
 const { ss, cs } = require('./socketsDoc');
 
 let onlinePlayers = [];
@@ -43,3 +43,5 @@ io.on("connection", socket => {
     // io.emit('')
   });
 });
+
+module.exports = io ;
