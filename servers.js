@@ -3,9 +3,17 @@ const express = require("express");
 const app = express();
 const socketio = require("socket.io");
 const mongoose = require('mongoose');
-const bodyParser = require("body-parser");
-const morgan = require("morgan");
-const playerRoutes = require("./api/routes/players");
+
+
+// Express App initialization
+// Serve the static files from the React app
+app.use(express.static(__dirname + "/public/build"));
+app.use(express.static(__dirname + "/public"));
+// Handles any requests that don't match the ones above
+app.get("*", (req, res) => {
+  res.sendFile(__dirname + "/public/build");
+});
+
 
 // Mongoose Initialization
 const DB_ROOT_URL = "mongodb://127.0.0.1:27017/";
@@ -22,59 +30,13 @@ xodb.on("error", (err) => {
   console.error(`connection to database ${XODB_URL} error:`, err);
 });
 
-// Express App initialization
-// Serve the static files from the React app
-app.use(express.static(__dirname + "/public/build"));
-app.use(express.static(__dirname + "/public"));
 
-// Logs API middleware
-app.use(morgan('dev'));
-// Body parser for handle json sended data
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-
-// Setting ACA headers
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-  );
-  if (req.method === "OPTIONS") {
-    res.header("Access-Control-Allow-Methods", "PUT, POST, PATCH, DELETE, GET");
-    return res.status(200).json({});
-  }
-  next();
-});
-
-// Handles any requests that don't match the ones above
-app.get("*", (req, res) => {
-  res.sendFile(__dirname + "/public/build");
-});
-
-app.use('/players', playerRoutes)
-
-// Error middlware handlers
-
-app.use((req, res, next) => {
-  const error = new Error("Not found");
-  error.status = 404;
-  next(error);
-});
-
-app.use((error, req, res, next) => {
-  res.status(error.status || 500);
-  res.json({
-    error: {
-      message: error.message,
-    },
-  });
-});
-const port = process.env.PORT || 5000;
 // Get expressServer and pass it to socketServer
 // The server is listening in port 5000 and the socket.io is listening in server
+const port = process.env.PORT || 5000;
 const expressServer = app.listen(port);
 console.log("App is listening on port " + port);
+
 
 // SocketIo initialization
 // the second parameter object is the default. Serves the client io api
@@ -83,4 +45,4 @@ const io = socketio(expressServer, {
   serveClient: true
 });
 
-module.exports = { app, io };
+module.exports = { app, io, express };
