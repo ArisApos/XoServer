@@ -6,7 +6,7 @@ socket.on('connection', (data) => { console.log(socket.id, data);socketData = da
 
 socket.emit('UPDATE_PLAYERS', {
     message: 'HOHOHOHOH from super simply client(sun of server)',
-    data: { name: 'SUN', password:'123', token: '98y45438758930195y489hrjk4lnk98y34t' }
+    data: { name: 'SUN'+Math.floor(Math.random() * 501), password:'123', token: '98y45438758930195y489hrjk4lnk98y34t' }
    });
 
 // Server emits ping event every 25000 ms
