@@ -29,7 +29,20 @@ io.on("connection", socket => {
 
   // Create Game, player1 dare the player2
   socket.on(cs.root.CREATE_GAME, ({player1, player2})=>{
+
+    //TODO: Check if player2 can accept the chalenge ==>Send requerst to player2==>Take the response=>If response is positive CREATE_GAME
+    const newGameName = player1 + "-" + player2;
+    const newGame1 = {[newGameName]:{name:newGameName}};
+    const newGame2 = {...newGame1};
+
+    newGame1[newGameName].opponentName = player2;// For player1
+    newGame2[newGameName].opponentName = player1;// For player2
+    socket.to(onlinePlayers[player2].socketId).emit(ss.root.UPDATE_GAME, newGame2)
+    io.to(onlinePlayers[player1].socketId).emit(ss.root.UPDATE_GAME, newGame1)
+    console.log('**************CREATE_GAME*******************', player1, player2)
+    // Create Game
   });
+
   // disconnect event
   socket.on("disconnect", () => {
     console.log(`>>>>>Server Disconect a Client with id ${socket.id}`);
