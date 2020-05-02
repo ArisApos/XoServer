@@ -34,8 +34,8 @@ io.on("connection", socket => {
   socket.on("disconnect", () => {
     console.log(`>>>>>Server Disconect a Client with id ${socket.id}`);
     const playerDisconeting = Object.values(onlinePlayers).find(({socketId})=>socketId == socket.id);
-    console.log('----------------------AUTO-DISCONECTION-----------------------------------',playerDisconeting)
-    delete onlinePlayers[playerDisconeting.name];
+    console.log('----------------------AUTO-DISCONECTION-----------------------------------',playerDisconeting);
+    playerDisconeting ? delete onlinePlayers[playerDisconeting.name] : null;
     console.log('++++++++++++++++++++++++++++++++++++++++++++',onlinePlayers)
     io.of(ss.root.NAME).emit(ss.root.UPDATE_PLAYERS, { onlinePlayers });
     // io.emit('')
@@ -44,7 +44,7 @@ io.on("connection", socket => {
   socket.on(cs.root.MANULLY_DISCONNECT, () => {
     const playerDisconeting = Object.values(onlinePlayers).find(({socketId})=>socketId == socket.id);
     console.log('----------------------MANUAL DISCONNECTION-----------------------------------',playerDisconeting, onlinePlayers)
-    playerDisconeting ? delete onlinePlayers[playerDisconeting.name] : null;
+    delete onlinePlayers[playerDisconeting.name];
     console.log( `++++++++++++++++++++++++++++++++++++++++++++`,onlinePlayers);
     io.of(ss.root.NAME).emit(ss.root.UPDATE_PLAYERS, { onlinePlayers });
     // io.emit('')
