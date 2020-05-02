@@ -1,7 +1,7 @@
 const  io  = require("../servers").io;
 const { ss, cs } = require('./socketsDoc');
 
-let onlinePlayers = [];
+let onlinePlayers = {};
 
 // connection is specific event from socket io(build in not custom), Its a reserved event name
 // socket is each one-one line connection
@@ -17,28 +17,35 @@ io.on("connection", socket => {
     connected: socket.connected
   });
 
+  // Update Players// One Player has been just online
   socket.on(cs.root.UPDATE_PLAYERS, ({data:{name, password, token}, message}) => {
     // authentication operations
-    const player = { socketId: socket.id, name  };
-    onlinePlayers = [...onlinePlayers, player];
+    const player = {[name]: { socketId: socket.id, name  }};
+    Object.assign(onlinePlayers, player)
     console.log('Message from client', message);
     console.log("I am the Server and you just send me your personal data to make a pairing name-socketId, data, player",name, onlinePlayers);
     io.emit(ss.root.UPDATE_PLAYERS, { onlinePlayers });
   });
-  
+
+  // Create Game, player1 dare the player2
+  socket.on(cs.root.CREATE_GAME, ({player1, player2})=>{
+  });
   // disconnect event
   socket.on("disconnect", () => {
-    console.log(`>>>>>>Server Disconect a Client with id ${socket.id}`);
-    onlinePlayers = onlinePlayers.filter(player => player.socketId !== socket.id);
+    console.log(`>>>>>Server Disconect a Client with id ${socket.id}`);
+    const playerDisconeting = Object.values(onlinePlayers).find(({socketId})=>socketId == socket.id);
+    console.log('----------------------AUTO-DISCONECTION-----------------------------------',playerDisconeting)
+    delete onlinePlayers[playerDisconeting.name];
+    console.log('++++++++++++++++++++++++++++++++++++++++++++',onlinePlayers)
     io.of(ss.root.NAME).emit(ss.root.UPDATE_PLAYERS, { onlinePlayers });
     // io.emit('')
   });
   // manualyDisconnect
   socket.on(cs.root.MANULLY_DISCONNECT, () => {
-    onlinePlayers = onlinePlayers.filter(player => player.socketId !== socket.id);
-    console.log(
-      `>>>>>>>>>>>>>>>>>>>>>>Manualy disconnection ${socket.id}.....players${onlinePlayers}`
-    );
+    const playerDisconeting = Object.values(onlinePlayers).find(({socketId})=>socketId == socket.id);
+    console.log('----------------------MANUAL DISCONNECTION-----------------------------------',playerDisconeting, onlinePlayers)
+    playerDisconeting ? delete onlinePlayers[playerDisconeting.name] : null;
+    console.log( `++++++++++++++++++++++++++++++++++++++++++++`,onlinePlayers);
     io.of(ss.root.NAME).emit(ss.root.UPDATE_PLAYERS, { onlinePlayers });
     // io.emit('')
   });
