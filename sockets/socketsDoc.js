@@ -6,6 +6,7 @@ exports.ss = {
     NAME: "/",
     UPDATE_PLAYERS: "UPDATE_PLAYERS",
     CREATE_GAME: "CREATE_GAME",
+    UPDATE_GAME: "UPDATE_GAME"
   },
 };
 // Client Name Spaces with Events
@@ -14,6 +15,7 @@ exports.cs = {
     NAME: "/",
     UPDATE_PLAYERS: "UPDATE_PLAYERS",
     MANULLY_DISCONNECT: "MANULLY_DISCONNECT",
-    CREATE_GAME: 'CREATE_GAME'
+    CREATE_GAME: "CREATE_GAME",
+    UPDATE_GAME: "UPDATE_GAME",
   },
 };
