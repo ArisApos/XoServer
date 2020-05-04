@@ -14,7 +14,7 @@ class Game {
         io.of(this.nameSpace).on('connection', (socket)=>{
             console.log(`A socket -------------${socket.id} is connected to nameSpace-------- ${this.nameSpace}`)
             socket.emit('connection',{});
-            socket.emit(ss.root.UPDATE_GAME, this)
+            socket.emit(ss.root.UPDATE_GAME, {[this.name]:this})
         })
     }
 }
