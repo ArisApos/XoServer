@@ -1,7 +1,9 @@
 const  io  = require("../servers").io;
 const { ss, cs } = require('./socketsDoc');
+const Game = require("../game/Game");
 
 let onlinePlayers = {};
+let games = {};
 
 // connection is specific event from socket io(build in not custom), Its a reserved event name
 // socket is each one-one line connection
@@ -30,24 +32,19 @@ io.on("connection", socket => {
   // Create Game, player1 dare the player2
   socket.on(cs.root.CREATE_GAME, ({player1, player2})=>{
 
-    //TODO: Check if player2 can accept the chalenge ==>Send requerst to player2==>Take the response=>If response is positive CREATE_GAME
-    const newGameName = player1 + "-" + player2;
-    const newGame1 = {[newGameName]:{name:newGameName}};
-    const newGame2 = {...newGame1};
-
-    newGame1[newGameName].opponentName = player2;// For player1
-    newGame2[newGameName].opponentName = player1;// For player2
-    socket.to(onlinePlayers[player2].socketId).emit(ss.root.UPDATE_GAME, newGame2)
-    io.to(onlinePlayers[player1].socketId).emit(ss.root.UPDATE_GAME, newGame1)
-    console.log('**************CREATE_GAME*******************', player1, player2)
-    // Create Game
+    // TODO: Check if player2 can accept the chalenge ==>Send requerst to player2==>Take the response=>If response is positive CREATE_GAME
+    // Create a Game
+    const newGame = new Game(onlinePlayers[player1], onlinePlayers[player2], io);
+    console.log('**************CREATE_GAME******************', player1, player2, newGame);
+    socket.to(onlinePlayers[player2].socketId).emit(ss.root.CREATE_GAME, newGame.nameSpace);
+    io.to(onlinePlayers[player1].socketId).emit(ss.root.CREATE_GAME, newGame.nameSpace);
   });
 
   // disconnect event
   socket.on("disconnect", () => {
     console.log(`>>>>>Server Disconect a Client with id ${socket.id}`);
     const playerDisconeting = Object.values(onlinePlayers).find(({socketId})=>socketId == socket.id);
-    console.log('----------------------AUTO-DISCONECTION-----------------------------------',playerDisconeting);
+    console.log('----------------------AUTO-DISCONECTION----------------------------',playerDisconeting);
     playerDisconeting ? delete onlinePlayers[playerDisconeting.name] : null;
     console.log('++++++++++++++++++++++++++++++++++++++++++++',onlinePlayers)
     io.of(ss.root.NAME).emit(ss.root.UPDATE_PLAYERS, { onlinePlayers });
