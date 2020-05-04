@@ -35,9 +35,7 @@ io.on("connection", socket => {
     // TODO: Check if player2 can accept the chalenge ==>Send requerst to player2==>Take the response=>If response is positive CREATE_GAME
     // Create a Game
     const newGame = new Game(onlinePlayers[player1], onlinePlayers[player2], io);
-    console.log('**************CREATE_GAME******************', player1, player2, newGame);
-    socket.to(onlinePlayers[player2].socketId).emit(ss.root.CREATE_GAME, newGame.nameSpace);
-    io.to(onlinePlayers[player1].socketId).emit(ss.root.CREATE_GAME, newGame.nameSpace);
+    console.log('**************GAME_CREATED******************', player1, player2, newGame);
   });
 
   // disconnect event
