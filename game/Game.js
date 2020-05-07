@@ -22,9 +22,7 @@ class Game {
             connectedSockets++;
             console.log(`A socket -------------${socket.id} is connected to nameSpace-------- ${this.nameSpace}`)
             socket.emit('connection',{});
-            if(connectedSockets === 2){
-                updateGame();
-            }
+            if(connectedSockets === 2) updateGame();
             socket.on(cs.root.UPDATE_GAME, ({turn, squareIndex})=>{
                 const squareContent = round % 2 ? "o" : "x";
                 this.squares[squareIndex] = squareContent;
