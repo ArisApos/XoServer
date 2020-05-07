@@ -23,10 +23,11 @@ class Game {
             console.log(`A socket -------------${socket.id} is connected to nameSpace-------- ${this.nameSpace}`)
             socket.emit('connection',{});
             if(connectedSockets === 2) updateGame();
-            socket.on(cs.root.UPDATE_GAME, ({turn, squareIndex})=>{
-                const squareContent = round % 2 ? "o" : "x";
+            socket.on(cs.root.UPDATE_GAME, ({squareIndex})=>{
+                const squareContent = round % 2 === 0 ? "o" : "x";
+                round++;
                 this.squares[squareIndex] = squareContent;
-                this.turn = this.player1Name ? this.player2Name : this.player1Name;
+                this.turn = socket.id === player1SocketId ? this.player2Name : this.player1Name;
                 updateGame();
             });
         });
