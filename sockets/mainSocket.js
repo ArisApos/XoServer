@@ -20,9 +20,9 @@ io.on("connection", socket => {
   });
 
   // Update Players// One Player has been just online
-  socket.on(cs.root.UPDATE_PLAYERS, ({data:{name, password, token}, message}) => {
+  socket.on(cs.root.UPDATE_PLAYERS, ({data:{name, points, maxPlayers, maxTime}, message}) => {
     // authentication operations
-    const player = {[name]: { socketId: socket.id, name  }};
+    const player = {[name]: { socketId: socket.id, name, points, maxPlayers, maxTime  }};
     Object.assign(onlinePlayers, player)
     console.log('Message from client', message);
     console.log("I am the Server and you just send me your personal data to make a pairing name-socketId, data, player",name, onlinePlayers);
