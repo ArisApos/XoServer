@@ -4,5 +4,5 @@ ADD package.json ./
 RUN npm i -g nodemon
 RUN npm i
 ADD . .
-EXPOSE 3000
+EXPOSE 5000
 CMD nodemon start
