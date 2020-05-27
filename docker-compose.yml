@@ -9,7 +9,6 @@ services:
         container_name: nodeContainer
         restart: always
         build: .
-        volumes: .
         ports:
             - '5000:5000'
         links:
