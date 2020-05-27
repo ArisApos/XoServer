@@ -5,4 +5,4 @@ RUN npm i -g nodemon
 RUN npm i
 ADD . .
 EXPOSE 5000
-CMD nodemon start
+CMD nodemon -L start
