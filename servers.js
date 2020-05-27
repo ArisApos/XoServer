@@ -16,7 +16,7 @@ app.get("*", (req, res) => {
 
 
 // Mongoose Initialization
-const DB_ROOT_URL = "mongodb://127.0.0.1:27017/";
+const DB_ROOT_URL = "mongodb://mongo-service:27017/";
 const XODB = 'xoDb';
 const XODB_URL = DB_ROOT_URL + XODB;
 
