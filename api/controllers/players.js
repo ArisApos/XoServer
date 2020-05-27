@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const Player = require("../models/player");
 
-// get all players jojojojoojo
+// get all players
 exports.getAllPlayers = (req, res) => {
     Player.find()
       .select("name avatar points maxPlayers maxTime")
