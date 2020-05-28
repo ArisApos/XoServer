@@ -3,6 +3,12 @@ services:
     mongo-service:
         container_name: mongoContainer
         image: mongo
+        # environment: 
+            # MONGO_INITDB_ROOT_USERNAME: fegaris
+            # MONGO_INITDB_ROOT_PASSWORD: fegarispass
+        volumes:
+            - ./mongoBackup:/mongoBackup
+        command: mongorestore /mongoBackup/xoDb/*.bson
         ports: 
             - '27017:27017'
     node-service:
