@@ -1,8 +1,8 @@
 FROM node
 WORKDIR /usr/src/app
-ADD package.json ./
+COPY package.json ./
 RUN npm i -g nodemon
 RUN npm i
-ADD . .
+COPY . .
 EXPOSE 5000
-CMD nodemon -L start
+CMD ["nodemon", "start"]
