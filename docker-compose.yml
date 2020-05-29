@@ -2,13 +2,13 @@ version: '3.5'
 services:
     mongo-service:
         container_name: mongoContainer
-        image: mongo
+        # image: mongo
         # environment: 
             # MONGO_INITDB_ROOT_USERNAME: fegaris
             # MONGO_INITDB_ROOT_PASSWORD: fegarispass
         volumes:
-            - ./mongoBackup:/mongoBackup
-        command: mongorestore /mongoBackup/xoDb/*.bson
+            - ./mongoBuild/mongoBackup:/mongoBackup
+        build: ./mongoBuild
         ports: 
             - '27017:27017'
     node-service:
