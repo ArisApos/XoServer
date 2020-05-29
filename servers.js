@@ -7,11 +7,11 @@ const mongoose = require('mongoose');
 
 // Express App initialization
 // Serve the static files from the React app
-app.use(express.static(__dirname + "/public/build"));
+app.use(express.static(__dirname + "/public/reactBuild"));
 app.use(express.static(__dirname + "/public"));
 // Handles any requests that don't match the ones above
 app.get("*", (req, res) => {
-  res.sendFile(__dirname + "/public/build");
+  res.sendFile(__dirname + "/public/reactBuild");
 });
 
 
