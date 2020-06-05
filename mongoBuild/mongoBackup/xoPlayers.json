@@ -1,0 +1,67 @@
+[{
+  "_id": {
+    "$oid": "5ecd870c24fa3d3590959ef8"
+  },
+  "avatar": "/playersAssets/avatars/pigasos.jpeg",
+  "points": 0,
+  "name": "pigasos",
+  "password": "$2b$10$jLo9b2KIYbvTvR2pSUgK2ew7MtxpmJ.KnlIkfRtDs2.ekxXi8qGaO",
+  "maxPlayers": 9,
+  "maxTime": 9,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5ecd87b824fa3d3590959ef9"
+  },
+  "avatar": "/playersAssets/avatars/aris.jpeg",
+  "points": 0,
+  "name": "aris",
+  "password": "$2b$10$mOjWYEW/lPY19i7MoLzA4ORXMyfacDx9ZHpCNSnDqk5Eaz5iCZ6Qa",
+  "maxPlayers": 3,
+  "maxTime": 3,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5ecd87f624fa3d3590959efa"
+  },
+  "avatar": "/playersAssets/avatars/tommy.jpeg",
+  "points": 0,
+  "name": "tommy",
+  "password": "$2b$10$TbdgC6FFJaYtklvOz9pP5OoXtc/s6F2IcTl6MACqtdwB/5MIeII0.",
+  "maxPlayers": 3,
+  "maxTime": 3,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5ecd880624fa3d3590959efb"
+  },
+  "avatar": "/playersAssets/avatars/dua.jpeg",
+  "points": 0,
+  "name": "dua",
+  "password": "$2b$10$2LxwrJxnCXlN1Vokub1LKOcsnbQh1p0IZA0BRAksqCYFVCVfZ/Qjq",
+  "maxPlayers": 3,
+  "maxTime": 3,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5ecd881824fa3d3590959efc"
+  },
+  "avatar": "/playersAssets/avatars/lana.jpeg",
+  "points": 0,
+  "name": "lana",
+  "password": "$2b$10$XLuikSFjXcvMXyTo3aD77u0HspoHE0RSpeYaZ4I8fhZbd/Jknuw2W",
+  "maxPlayers": 5,
+  "maxTime": 5,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5ecd882b24fa3d3590959efd"
+  },
+  "avatar": "/playersAssets/avatars/matthew.jpeg",
+  "points": 0,
+  "name": "matthew",
+  "password": "$2b$10$IIjp2yl93MtzDIgpN6t0T.sQf7U2VHjm/oKxqDiogRLjgwn4LfFmG",
+  "maxPlayers": 7,
+  "maxTime": 7,
+  "__v": 0
+}]
