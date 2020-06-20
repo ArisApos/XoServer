@@ -1,24 +1,32 @@
 version: '3.5'
 services:
-    mongo-service:
-        container_name: mongoContainer
-        # image: mongo
-        # environment: 
-            # MONGO_INITDB_ROOT_USERNAME: fegaris
-            # MONGO_INITDB_ROOT_PASSWORD: fegarispass
-        volumes:
-            - ./mongoBuild/mongoBackup:/mongoBackup
-        build: ./mongoBuild
-        ports: 
-            - '27017:27017'
-    node-service:
-        container_name: nodeContainer
-        restart: always
-        build: .
-        volumes:
-            - .:/usr/src/app
-            - /usr/src/app/node_modules
-        ports:
-            - '80:5000'
-        links:
-            - mongo-service
+  mongo-service:
+    container_name: mongoContainer
+    # image: mongo
+    # environment:
+    # MONGO_INITDB_ROOT_USERNAME: fegaris
+    # MONGO_INITDB_ROOT_PASSWORD: fegarispass
+    volumes:
+      - ./mongoBuild/mongoBackup:/mongoBackup
+    build: ./mongoBuild
+    ports:
+      - '27017:27017'
+  node-service:
+    container_name: nodeContainer
+    restart: always
+    build: .
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - '80:5000'
+    links:
+      - mongo-service
+# version: '3.8'
+# services:
+#   mongo-image:
+#     build: ./mongoBuild
+#     image: mongo-image
+#   node-image:
+#     build: ./
+#     image: node-image
